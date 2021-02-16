@@ -1,0 +1,235 @@
+= Messaging Protocol
+
+For simplicity, each message is a newline-delimited JSON payload.
+
+[source,json]
+----
+{
+    "meta": {
+      "address": {
+        "ip": "192.168.0.1",
+        "port": 8888
+      },
+      "client": "funcoin 0.1"
+    },
+    "message": {
+      "name": "ping",
+      "payload": {}
+    }
+}
+----
+
+.`root` object
+[cols=3,options=header]
+|===
+|Field name
+|Type
+|Description
+
+|meta
+|`meta`
+|--
+
+|message
+|`message`
+|--
+|===
+
+.`meta` object
+[cols=3,options=header]
+|===
+|Field name
+|Type
+|Description
+
+|address
+|`peer`
+|Contains the network address information of the node who sent this message
+
+|client
+|`string`
+|The name (of version) of the client who sent the message. Eg. `funcoin-0.1`
+|===
+
+.`address` object
+[cols=3,options=header]
+|===
+|Field name
+|Type
+|Description
+
+|`ip`
+|`string`
+|The public IP of the peer
+
+|`port`
+|`int`
+|The port the peer is listening on
+
+|`last_seen`
+|`int`
+| UTC timestamp of the last seen time of the peer
+|===
+
+.`message` object
+[cols=3,options=header]
+|===
+|Field name
+|Type
+|Description
+
+|`name`
+|`string`
+|The name of the message (so that the receiver knows how to parse it).
+
+|`payload`
+|`object`
+|The message payload corresponding to the message type. See below for the different payloads.
+|===
+
+== Message Payloads
+
+.`ping` payload
+[cols="1,2a",options=header]
+|===
+|Key
+|Value
+
+|`name`
+|`ping`
+
+|`payload`
+|`null`
+|===
+
+.`pong` payload
+[cols="1,2a",options=header]
+|===
+| Key
+| Value
+
+| `name`
+| `pong`
+
+| `payload`
+|
+[cols="1,2,2"]
+!===
+! Key ! Type ! Example
+
+! `block_height`
+! `int`
+! `2000`
+
+! `peer_count`
+! `int`
+! `23`
+
+! `is_miner`
+! `bool`
+! `false`
+!===
+
+|===
+.`transaction` payload
+[cols="1,2a",options=header]
+|===
+| Key
+| Value
+
+| `name`
+| `transaction`
+
+| `payload`
+|
+[cols="1,2,3"]
+!===
+! Key ! Type ! Example
+
+! `hash`
+! `string`
+! <sha 256 hash of this payload>
+
+! `sender`
+! `string`
+! `<pub key of sender>`
+
+
+! `signature`
+! `string`
+! `<digital signature key of sender>`
+
+! `timestamp`
+! `string`
+! `1589135911`
+
+! `receiver`
+! `string`
+! `<pub key of receiver>`
+
+! `amount`
+! `int`
+! `<amount of funcoins to send>`
+!===
+|===
+
+.`peers` payload
+[cols="1,2a",options=header]
+|===
+| Key
+| Value
+
+| `name`
+| `peers`
+
+| `payload`
+|
+[cols="1,2"]
+!===
+! Key ! Type
+
+! `peers`
+! `List[peer]`
+!===
+|===
+
+.`block` payload
+[cols="1,2a",options=header]
+|===
+| Key
+| Value
+
+| `name`
+| `block`
+
+| `payload`
+|
+[cols="1,2"]
+!===
+! Key ! Type
+
+! `mined_by`
+! `string`
+
+! `transactions`
+! `List[transaction]`
+
+! `height`
+! `int`
+
+! `difficulty`
+! `int`
+
+! `hash`
+! `string`
+
+! `previous_hash`
+! `string`
+
+! `nonce`
+! `string`
+
+! `timestamp`
+! `int`
+!===
+|===

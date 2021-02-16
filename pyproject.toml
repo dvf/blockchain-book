@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "funcoin"
+version = "0.1.0"
+description = ""
+authors = ["Daniel van Flymen <vanflymen@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pillow = "^7.0.0"
+sanic = "^19.12.2"
+aiohttp = "^3.6.2"
+pynacl = "^1.3.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
