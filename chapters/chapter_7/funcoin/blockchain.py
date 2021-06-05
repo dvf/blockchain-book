@@ -30,9 +30,6 @@ class Blockchain(object):
             timestamp=time(),
         )
 
-        # Reset the list of pending transactions
-        self.pending_transactions = []
-
         return block
 
     @staticmethod
@@ -112,6 +109,9 @@ class Blockchain(object):
                 break
 
             await asyncio.sleep(0)
+
+        # Reset the list of pending transactions
+        self.pending_transactions = []
 
         self.chain.append(new_block)
         logger.info("Found a new block: ", new_block)

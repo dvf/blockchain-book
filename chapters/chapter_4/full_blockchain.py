@@ -27,9 +27,6 @@ class Blockchain(object):
         block_hash = self.hash(block)
         block["hash"] = block_hash
 
-        # Reset the list of pending transactions
-        self.pending_transactions = []
-
         return block
 
     @staticmethod
@@ -53,6 +50,9 @@ class Blockchain(object):
             new_block = self.new_block()
             if self.valid_block(new_block):
                 break
+
+        # Reset the list of pending transactions
+        self.pending_transactions = []
 
         self.chain.append(new_block)
         print("Found a new block: ", new_block)
